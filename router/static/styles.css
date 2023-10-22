@@ -1,0 +1,133 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap');
+
+* {
+    font-family: 'Roboto', sans-serif !important;
+}
+
+:root {
+    --primary: #5574C2;
+}
+
+body {
+    min-width: 1000px;
+    width: auto !important;
+    width: 1000px;
+}
+
+.fit {
+    object-fit: contain;
+    width: 250px;
+    height: 250px;
+    border: 1px black solid;
+    border-radius: 10px;
+}
+
+.fit-image {
+    object-fit: contain;
+    width: 250px;
+    height: 250px;
+}
+
+.logo {
+    object-fit: contain;
+    max-width: 400px;
+    width: 20%;
+    min-width: 200px;
+}
+
+.cart-image {
+    object-fit: contain;
+    max-width: 200px;
+    border-radius: 10px;
+}
+
+.counter {
+    background-color: hsl(0, 0%, 92.94%);
+    border: none;
+    padding: 3px 15px;
+    text-align: center;
+    outline: none;
+    transition: .5s;
+}
+
+.counter.minus {
+    border-radius: 7px 0 0 7px;
+}
+
+.counter.plus {
+    border-radius: 0 7px 7px 0;
+}
+
+button.counter:hover {
+    background-color: hsl(0, 0%, 70.94%);
+}
+
+.counter.input {
+    width: 60px;
+}
+
+limit-1 {
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    line-clamp: 1;
+    -webkit-box-orient: vertical;
+}
+
+limit-3 {
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    line-clamp: 3;
+    -webkit-box-orient: vertical;
+}
+
+.register {
+    max-width: 500px;
+    width: 20%;
+    min-width: 300px;
+}
+
+.fit-width {
+    width: fit-content;
+}
+
+.fit-height {
+    height: fit-content;
+}
+
+.first-list {
+    background-color: #5574C2;
+    color: white;
+    border: solid 1px #5574C2;
+}
+
+.list-group-item.active {
+    border: none;
+    background-color: #364A7D;
+    color: white;
+}
+
+button.search {
+    position: relative;
+    left: -38px;
+}
+
+input.search {
+    transition: all .5s;
+}
+
+input.search:focus {
+    width: 25vw;
+}
+
+.end-button {
+    border-radius: 0 0 5px 5px;
+}
+
+footer {
+    background-color: #2B2B2B;
+    color: white;
+    position: relative;
+    top: 50vh;
+}

@@ -1,0 +1,23 @@
+{% extends "../base.html" %}
+{% block content %}
+    <h3 class="text-center mt-3 mb-0">Данные профиля</h3>
+    <p class="text-center mb-4 text-secondary">Заполните данные профиля, чтобы мы знали, куда доставить заказ</p>
+
+    <form action="/create_profile" class="card register mx-auto shadow" method="post">
+        <div class="card-body d-flex flex-column gap-3">
+            {% csrf_token %}
+            <input type="text" class="form-control" name="fio" required placeholder="ФИО">
+            <input type="text" class="form-control" name="street" required placeholder="Улица">
+            <div class="d-flex gap-3">
+                <input type="text" class="form-control" name="house" required placeholder="Дом">
+                <input type="text" class="form-control" name="corps" placeholder="Корпус">
+                <input type="text" class="form-control" name="flat" placeholder="Квартира">
+            </div>
+            <input type="text" class="form-control" name="phone" required placeholder="Номер телефона">
+            <div class="d-flex justify-content-evenly mt-4">
+                <a href="/" class="text-decoration-none text-secondary mt-1">Заполнить позже</a>
+                <button class="btn btn-primary px-3 fit-width">Сохранить</button>
+            </div>
+        </div>
+    </form>
+{% endblock content %}

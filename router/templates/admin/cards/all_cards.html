@@ -1,0 +1,18 @@
+{% extends "../../base.html" %}
+
+{% block content %}
+    <div class="d-flex flex-column gap-2">
+        <h4 class="ms-2">Карточки</h4>
+        {% for card in cards %}
+            <a href="/cards/{{category_id}}/{{card.id}}" class="text-decoration-none m-2">
+                <div class="card">
+                    <div class="card-body">
+                        {{card.title}}
+                    </div>
+                </div>
+            </a>
+        {% endfor %}
+        <a href="/cards/{{category_id}}/new" class="btn btn-success px-4 py-3 fit-width ms-2"> Создать</a>
+    </div>
+    
+{% endblock content %}

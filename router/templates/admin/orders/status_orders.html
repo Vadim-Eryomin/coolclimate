@@ -1,0 +1,17 @@
+{% extends "../../base.html" %}
+{% block content %}
+    <div class="card d-flex shadow m-3">
+        <div class="card-body">
+            <h4>Заказы: {{status}}</h4>
+            {% for order in orders %}
+                <a href="/orders/track/{{order.track}}" class="text-decoration-none">
+                    <div class="card shadow m-3 ms-0">
+                        <div class="card-body">
+                            Заказ {{order.track}}
+                        </div>
+                    </div>
+                </a>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock content %}

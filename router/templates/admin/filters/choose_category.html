@@ -1,0 +1,21 @@
+{% extends '../../base.html' %}
+{% block content %}
+    <div class="m-3">
+        <h2 class="text-center mb-3">Выберите категорию</h2>
+        <div class="d-flex flex-column gap-2 mx-3">
+            {% for category in categories %}
+                <a href="/filters/{{category.id}}" class="text-decoration-none">
+                    <div class="card btn btn-primary">
+                        <div class="card-body">
+                            <h4>{{category.title}}</h4>
+                            <span>Товаров в этой категории: {{category.cards}}</span>
+                            <br>
+                            <span>Фильтров в этой категории: {{category.filters}}</span>
+                        </div>
+                    </div>
+                </a>
+            {% endfor %}
+        </div>
+    </div>
+    
+{% endblock content %}

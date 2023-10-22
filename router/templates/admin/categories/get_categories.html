@@ -1,0 +1,30 @@
+{% extends '../../base.html' %} 
+{% block content %}
+    <div class="p-4">
+        <h2 class="text-center mb-4">Категории</h2>
+        {% for category in categories %}
+            <div class="d-flex justify-content-between align-items-stretch col">
+                <form action="/edit_category" class="d-flex w-100 gap-2" method="post">
+                    {% csrf_token %}
+                    <input type="hidden" name="id" value="{{category.id}}">
+                    <input type="text" name="title" value="{{category.title}}" class="form-control shadow fs-5" placeholder="{{category.title}}" required>
+                    <div class="d-flex m-0">
+                        <button class="btn btn-success px-4 shadow fs-5">Edit</button>
+                    </div>
+                    <div class="m-0">
+                        <a href="/delete_category?id={{category.id}}" class="btn btn-outline-danger px-4 shadow fs-5">x</a>
+                    </div>
+                </form>
+            </div>
+            
+        {% endfor %}
+        <form action="/create_category" method="post">
+            {% csrf_token %}
+            <div class="col d-flex gap-2">
+                <input type="text" name="category" class="form-control shadow fs-5" placeholder="Создать новую категорию">
+                <button class="btn btn-outline-success shadow fs-5">+</button>
+            </div>
+
+        </form>
+    </div>
+{% endblock content %}

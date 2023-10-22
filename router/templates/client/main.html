@@ -1,0 +1,22 @@
+{% extends '../base.html' %}
+{% block content %}
+    {% load static %}
+
+    <div class="d-flex flex-wrap mx-auto justify-content-evenly">
+        {% for card in cards %}
+            <div class="card m-3 hovered">
+                <a href="/card/{{card.id}}" class="text-decoration-none">
+                    <div class="card-body">
+                        <img 
+                        {% if card.image == 'default.png' %} 
+                            src="{% static 'default.png' %}"
+                        {% else %}
+                            src="{% get_media_prefix %}{{card.image}}"
+                        {% endif %} alt="" class="fit-image">
+                    </div>
+                    <p class="fw-semibold text-center text-black">{{card.title}}</p>
+                </a>
+            </div>
+        {% endfor %}
+    </div>
+{% endblock content %}

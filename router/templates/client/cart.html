@@ -1,0 +1,60 @@
+{% extends "../base.html" %}
+{% block content %}
+    {% load static %}
+    <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
+    <script src="{% static 'carttotal.js' %}"></script>
+    {% load static %}
+    <form class="row" action="/create_order" method="post" style="min-width: 900px">
+        {% csrf_token %}
+        <div class="col-11 mx-auto col-2xl-8">
+            {% for variant in variants %}
+                <div class="card m-3 shadow" style="min-width: 800px">
+                    <div class="card-body d-flex align-items-center gap-3">
+                        <img src="/media/{{variant.image}}" class="cart-image">
+                        <div class="d-flex flex-column col-4 align-content-between justify-content-between">
+                            <h4 class="fw-bold limit-1">{{variant.card_title}}</h4>
+                            <p class="fs-5 lim">{{variant.title}}</p>
+                            {% if variant.quantity > 0 %}
+                                <p class="text-success">В наличии {{variant.quantity}} шт.</p>
+                            {% else %}
+                                <p class="text-secondary">Под заказ</p>
+                            {% endif %}
+                            <a href="/cart_delete?variant={{variant.id}}" class="btn btn-outline-danger px-4" style="width: fit-content">Удалить</a>
+                        </div>
+                        <div class="col-2 gap-0 d-flex">
+                            <input type="hidden" id="cost{{forloop.counter}}" value="{{variant.cost}}" >
+                            <input type="hidden" id="subtotalvalue{{forloop.counter}}" value="{{variant.cost}}">
+                            <input type="hidden" name="variant" value="{{variant.id}}">
+                            <button type="button" onclick="minus({{forloop.counter}})" class="counter minus">-</button>
+                            <input type="number" name="quantity" readonly value="1" id="quantity{{forloop.counter}}" class="counter input px-0">
+                            <button type="button" onclick="plus({{forloop.counter}})" class="counter plus">+</button>
+                        </div>
+                        <div class="col-2 text-end">
+                            <span id="subtotal{{forloop.counter}}" class="text-end">{{variant.cost}} руб.</span>
+                        </div>
+                    </div>
+                </div>
+            {% empty %}
+                <div class="card shadow my-3">
+                    <div class="card-body">
+                        <h4>Пока здесь ничего нет!</h4>
+                        <p>Попробуйте присмотреть что-нибудь <a href="/" class="text-decoration-none">в каталоге</a></p>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    
+        <div class="card col-11 mx-auto col-2xl-3 shadow my-3" style="height: fit-content">
+            <div class="card-body d-flex flex-column">
+                <div>
+                    <span class="fs-4 fw-semibold">Итого: </span> 
+                    <span class="fs-4 fw-semibold" id="total"></span>
+                </div>
+                <button class="btn btn-primary px-4 my-2" style="width: fit-content">Оформить заказ</button>
+            </div>
+        </div>
+    </form>
+
+    <script> recount() </script>
+    
+{% endblock content %}

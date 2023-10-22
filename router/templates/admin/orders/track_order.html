@@ -1,0 +1,70 @@
+{% extends "../../base.html" %}
+{% block content %}
+    <div class="card shadow container mt-3">
+        <div class="card-body">
+            <div class="d-flex flex-column container">
+                <h3>Заказ {{order.track}}</h3>
+                <form action="/orders/track/{{order.track}}/change" method="post" class="d-flex gap-2">
+                    {% csrf_token %}
+                    <input type="text" name="status" placeholder="Статус" value="{{order.status}}" class="form-control" list="statuses">
+                    <button class="btn btn-success">
+                        Сохранить
+                    </button>
+
+                    <datalist id="statuses">
+                        {% for status in statuses %}
+                            <option value="{{status}}"></option>
+                        {% endfor %}
+                    </datalist>
+                </form>
+                
+
+                {% for entry in entries %}
+                    <div class="card m-3 shadow" style="min-width: 800px">
+                        <div class="card-body d-flex align-items-center gap-3">
+                            <img src="/media/{{entry.card_image.path}}" class="cart-image">
+                            <div class="d-flex flex-column col-4 align-content-between justify-content-between">
+                                <h4 class="fw-bold limit-1">{{entry.card_title}}</h4>
+                                <p class="fs-5 lim">{{entry.variant.title}}</p>
+                                {% if entry.variant.quantity > 0 %}
+                                    <p class="text-success">В наличии {{entry.variant.quantity}} шт.</p>
+                                {% else %}
+                                    <p class="text-secondary">Под заказ</p>
+                                {% endif %}
+                            </div>
+                            <div class="col-2 gap-0 d-flex">
+                                <span class="text-end">{{entry.quantity}} шт.</span>
+                            </div>
+                            <div class="col-2 text-end">
+                                <span class="text-end">{{entry.total}} руб.</span>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+
+                <div class="card shadow">
+                    <div class="card-body">
+                        <div class="d-flex flex-column">
+                            <span class="fs-4 fw-semibold"> Итого: {{total}} руб. </span>
+                            {% if not has_all %}
+                                <span class="fs-6 mb-3 fw-semibold">Не все товары есть в наличии, заказ будет доставлен, как только все появится на складе!</span>
+                            {% endif %}
+                            <h5 class="mb-0">Данные получателя</h5>
+                            <div class="card-body d-flex flex-column my-2">
+                                <h6>{{order.fio}}</h6>
+                                <span>ул. {{order.street}}
+                                    д. {{order.house}}
+                                    {% if order.corps %}к. {{order.corps}} {% endif %}
+                                    {% if order.flat %}кв. {{order.flat}} {% endif %}
+                                </span>
+                                <span>тел. {{order.phone}}</span>
+                                <span class="mb-3">Требуется доставка: {% if order.is_delivery %}Да{% else %}Нет{% endif %}</span>
+                                <span>Комментарий: {{order.comment|default:"нет"}}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock content %}

@@ -1,0 +1,64 @@
+{% extends "../base.html" %}
+{% block content %}
+    {% load static %}
+    {% load in %}
+    <div class="d-flex flex-lg-row flex-column">
+        <div class="d-flex flex-wrap mx-auto justify-content-evenly order-2 order-lg-1 col-12 col-lg-8">
+            {% for card in cards %}
+                <div class="card m-3 hovered">
+                    <a href="/card/{{card.id}}" class="text-decoration-none">
+                        <div class="card-body">
+                            <img 
+                            {% if card.image == 'default.png' %} 
+                                src="{% static 'default.png' %}"
+                            {% else %}
+                                src="{% get_media_prefix %}{{card.image}}"
+                            {% endif %} alt="" class="fit-image">
+                        </div>
+                        <p class="fw-semibold text-center text-black">{{card.title}}</p>
+                    </a>
+                </div>
+            {% endfor %}
+        </div>
+    
+        <form method="post" action="/" class="d-flex card shadow order-lg-2 order-1 col-12 col-lg-4 fit-height">
+            {% csrf_token %}
+            <input type="hidden" name="q" value="{{q}}">
+            <input type="hidden" name="active_category" value="{{active_category}}">
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item fw-semibold">Фильтры</li>
+                {% for filter in filters %}
+                    <li class="list-group-item">
+                        <h6>{{filter.title}}</h6>
+                        {% if filter.is_choice %}
+                            <label for="{{filter.id}}"></label>
+                            {% for value in filter.filtervalues %}
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" value="{{value.id}}" id="{{value.id}}" name="{{filter.id}}" {% if value|checked:filter.id|request:request %} checked {% endif %} >
+                                    <label class="form-check-label" for="{{value.id}}">
+                                        {{value.answer}}
+                                    </label>
+                                </div>
+                            {% endfor %}
+                        {% else %}
+                        <div class="d-flex align-items-center align-self-center">
+                            <span class="me-1">от</span> 
+                            <input type="number" name="{{filter.id}}" value="{{filter.min|checked:filter.id|orfrommin:request}}" class="form-control pe-2">
+                            <span class="ms-2 me-1">до</span>
+                            <input type="number" name="{{filter.id}}" value="{{filter.max|checked:filter.id|orfrommax:request}}" class="form-control">
+                        </div>
+                        {% endif %}
+                    </li>
+                {% empty %}
+                <div class="card">
+                    <div class="card-body">
+                        Странно, но здесь нет карточек!
+                    </div>
+                </div>
+                {% endfor %}
+            </ul>
+            <button class="btn btn-primary end-button">Показать</button>
+        </form>
+    </div>
+{% endblock content %}
+

@@ -1,0 +1,89 @@
+{% extends '../../base.html' %}
+{% block content %}
+    {% load static %}
+    <div class="card m-3">
+        <form class="card-body" action="{{card.id}}/edit_card" method="post">
+            <h4>Общая информация</h4>
+            {% csrf_token %}
+            <input type="text" name="title" value="{{card.title}}" placeholder="Новая карточка" class="form-control my-2">
+            <textarea name="description" cols="30" rows="10" placeholder="Описание" class="form-control my-2">{{card.description|default:"Описание еще не создано"}}</textarea>
+            <button class="btn btn-outline-success">Сохранить</button>
+            <a href="{{card.id}}/delete_card" class="btn btn-outline-danger">Удалить</a>
+        </form>
+    </div>
+    <div class="card m-3">
+        <div class="card-body">
+            <h4>Варинты товара</h4>
+            <h5>Новый вариант</h5>
+            <form action="{{card.id}}/new_variant" class="card p-3" method="post">
+                {% csrf_token %}
+                <h6>Название</h6>
+                <input type="text" name="title" placeholder="Новый вариант" class="form-control my-2">
+                <h6>Количество</h6>
+                <input type="number" name="quantity" placeholder="Количество" class="form-control my-2">
+                <h6>Цена</h6>
+                <input type="number" name="cost" placeholder="Цена" class="form-control my-2">
+                <div class="col">
+                    <button class="btn btn-outline-success">Добавить</button>
+                </div>
+            </form>
+            <h5>Существующие варианты</h5>
+            {% for variant in variants %}
+                <form action="{{card.id}}/edit_variant" class="card p-3" method="post">
+                    {% csrf_token %}
+                    <input type="hidden" name="id" value="{{variant.id}}">
+                    <h6>Название</h6>
+                    <input type="text" name="title" value="{{variant.title}}" placeholder="Новый вариант" class="form-control my-2">
+                    <h6>Количество</h6>
+                    <input type="number" name="quantity" value="{{variant.quantity}}" placeholder="Количество" class="form-control my-2">
+                    <h6>Цена</h6>
+                    <input type="number" step="0.01" name="cost" value="{{variant.cost}}" placeholder="Цена" class="form-control my-2">
+                    <div class="col">
+                        <button class="btn btn-outline-success">Сохранить</button>
+                        <a href="{{card.id}}/delete_variant?id={{variant.id}}" class="btn btn-outline-danger">Удалить</a>
+                    </div>
+                </form>
+            {% endfor %}
+
+        </div>
+    </div>
+
+    <div class="card m-3">
+        <div class="card-body">
+            <h4>Фотографии</h4>
+            
+            <form action="{{card.id}}/new_image" class="card p-3" method="post" enctype="multipart/form-data" id="form">
+                {% csrf_token %}
+                <input type="file" name="image" id="image" class="d-none" onchange="form.submit()">
+                <div class="col">
+                    <label for="image" class="btn btn-outline-success">
+                        Добавить
+                    </label>    
+                </div>
+            </form>
+            {% for image in images %}
+                <a href="{{card.id}}/delete_image?id={{image.id}}">
+                    <img src="{% get_media_prefix %}{{image.path}}" alt="" class="fit" title="Нажмите на фотографию, чтобы удалить">
+                </a>
+            {% endfor %}
+        </div>
+    </div>
+
+    <div class="card m-3">
+        <div class="card-body">
+            <h4>Данные для фильтров</h4>
+            <form action="{{card.id}}/edit_filter" class="card p-3" method="post">
+                {% for filter_value in filters %}
+                    {% csrf_token %}
+                    <label class="form-label" for="{{filter_value.id}}">{{filter_value.filter_title}}</label>
+                    <input class="form-control" name="{{filter_value.id}}" value="{{filter_value.answer}}" id="{{filter_value.id}}"
+                    {% if filter_value.filter_type %} type="text" {% else %} type="number" {% endif %}>
+                {% endfor %}
+                <div class="col my-3">
+                    <button class="btn btn-outline-success">Сохранить</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    
+{% endblock content %}

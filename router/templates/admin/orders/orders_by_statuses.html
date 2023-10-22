@@ -1,0 +1,16 @@
+{% extends "../../base.html" %}
+{% block content %}
+
+    <div class="card shadow m-3">
+        <h2 class="text-center m-2">Заказы</h2>
+        <div class="card-body d-flex flex-column justify-content-evenly container gap-3">
+            {% for group in status_groups.items %}
+                <a href="/orders/all/{{group.0}}" class="btn btn-primary fs-4">
+                    <h4 class="limit-1 mb-0">Заказы со статусом {{group.0}}</h4>
+                    <span>Количество заказов: {{group.1}}</span>
+                </a>    
+            {% endfor %}
+        </div>
+    </div>
+
+{% endblock content %}

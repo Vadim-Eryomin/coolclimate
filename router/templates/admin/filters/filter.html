@@ -1,0 +1,20 @@
+{% extends '../../base.html' %}
+{% block content %}
+    {% load static %}
+    <div class="card m-3">
+        <form class="card-body" action="{{filter.id}}/edit_filter" method="post">
+            <h4>Общая информация</h4>
+            {% csrf_token %}
+            <input type="text" name="title" value="{{filter.title}}" placeholder="Новый фильтр" class="form-control my-2">
+            <label for="type" class="form-label">Тип фильтра</label>
+            <select name="type" id="type" class="form-select mb-3">
+                <option value="true" {% if filter.is_choice %}selected{% endif %}>Выбор варианта</option>
+                <option value="false" {% if not filter.is_choice %}selected{% endif %}>Числовой диапазон</option>
+            </select>
+            <button class="btn btn-outline-success">Сохранить</button>
+            
+            <a href="{{filter.id}}/delete_filter" class="btn btn-outline-danger">Удалить</a>
+        </form>
+    </div>
+    
+{% endblock content %}
